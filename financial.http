@@ -1,0 +1,61 @@
+@api = http://localhost:3002/financial
+
+GET {{api}}/users
+
+###
+
+GET {{api}}/user/1
+
+###
+
+GET {{api}}/user/4/incomes
+
+###
+
+PUT {{api}}/users/1/update
+Content-Type: application/json
+
+{
+    "userName": "Teo",
+    "name": "Mateo Loaiza Correa",
+    "password": "01800MaT*",
+    "email": "matiu0330@gmail.com"
+}
+
+###
+
+POST {{api}}/newUser
+Content-Type: application/json
+
+{
+    "name": "Mateo Loaiza Correa",
+    "password": "MaT018000*",
+    "email": "matiu0330@gmail.com"
+}
+
+###
+
+DELETE {{api}}/users/11/delete
+
+###
+
+GET {{api}}/login
+Content-Type: application/json
+
+{
+    "email": "matiu0330@gmail.com",
+    "password": "MaT018000*"
+}
+
+###
+
+POST {{api}}/user/3/credits/newCredit
+Content-Type: application/json
+
+{
+    "description": "credito",
+    "payment_date": "2023-06-18 03:27:13",
+    "fee": "130000.60",
+    "term": "60",
+    "entity": "cootrafa"
+}
