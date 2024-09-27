@@ -3,14 +3,8 @@ import { connect } from "../database.js";
 export const getSavings = async (req, res) => {
 try {
     const connection = await connect();
-    const validTables = ['savings', 'investments', 'incomes','expenses', 'credits', 'bills']
 
-    if (!validTables.includes(req.params.tableName)) {
-        return res.status(400).json({error: 'Nombre de la tabla no valido'});
-    }
-
-    const [rows] = await connection.query('SELECT * FROM ?? WHERE userId = ?', [
-        req.params.tableName,
+    const [rows] = await connection.query('SELECT * FROM savings WHERE userId = ?', [
         req.params.userId
     ]);
     res.json(rows)

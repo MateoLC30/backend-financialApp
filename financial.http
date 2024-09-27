@@ -28,9 +28,9 @@ POST {{api}}/newUser
 Content-Type: application/json
 
 {
-    "name": "Paloma Loaiza Correa",
-    "password": "palomita03",
-    "email": "paloma0330@gmail.com"
+    "name": "alina Loaiza ",
+    "password": "alinita03",
+    "email": "alita0@gmail.com"
 }
 
 ###
@@ -43,8 +43,8 @@ POST {{api}}/login
 Content-Type: application/json
 
 {
-    "email": "gloria@gmail.com",
-    "password": "glori99"
+    "email": "alita0@gmail.com",
+    "password": "alinita03"
 }
 
 

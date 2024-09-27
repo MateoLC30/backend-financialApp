@@ -1,4 +1,5 @@
 import { connect } from "../database.js";
+import bcrypt from 'bcryptjs';
 
 export const getUsers = async (req, res) => {
 try {
@@ -44,16 +45,18 @@ try {
 export const createUser = async (req, res) => {
 try {
     const connection = await connect();
+    const { name, password, email } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
     const result = await connection.query('INSERT INTO users (name, password, email) VALUES (?,?,?)', [
-        req.body.name,
-        req.body.password,
-        req.body.email
+        name,
+        hashedPassword,
+        email
     ]);
     console.log("Usuario creado correctamente", result);
-    res.sendStatus(200)
+    res.status(201).json({ message: 'Usuario creado correctamente' });
 } catch (error) {
     console.log("Error: " + error);
-    res.sendStatus(500);
+    res.status(500).json({ error: 'Error al crear el usuario' });
 }}
 
    
