@@ -4,7 +4,7 @@ GET {{api}}/users
 
 ###
 
-GET {{api}}/user/1
+GET {{api}}/users/15
 
 ###
 
@@ -28,34 +28,42 @@ POST {{api}}/newUser
 Content-Type: application/json
 
 {
-    "name": "Mateo Loaiza Correa",
-    "password": "MaT018000*",
-    "email": "matiu0330@gmail.com"
+    "name": "Paloma Loaiza Correa",
+    "password": "palomita03",
+    "email": "paloma0330@gmail.com"
 }
 
 ###
 
-DELETE {{api}}/users/11/delete
+DELETE {{api}}/users/18/delete
 
 ###
 
-GET {{api}}/login
+POST {{api}}/login
 Content-Type: application/json
 
 {
-    "email": "matiu0330@gmail.com",
-    "password": "MaT018000*"
+    "email": "gloria@gmail.com",
+    "password": "glori99"
 }
+
 
 ###
 
-POST {{api}}/user/3/credits/newCredit
+GET {{api}}/15/savings
+
+###
+
+POST {{api}}/15/newSaving
 Content-Type: application/json
 
 {
-    "description": "credito",
-    "payment_date": "2023-06-18 03:27:13",
-    "fee": "130000.60",
-    "term": "60",
-    "entity": "cootrafa"
+    "description": "ahorro",
+    "date": "2023-06-18 03:27:13",
+    "annualInterest": 0.13,
+    "entity": "nequi",
+    "amount": 200000
 }
+
+###
+GET {{api}}/15/savings

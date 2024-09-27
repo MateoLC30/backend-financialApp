@@ -25,7 +25,7 @@ const router = Router()
  *   summary: Login
  *   tags: [Login]
  */
-router.get('/financial/login', login)
+router.post('/financial/login', login)
 
 
 
@@ -52,7 +52,7 @@ router.get('/financial/users', getUsers)
  *   summary: Get one User
  *   tags: [Users]
  */
-router.get('/financial/user/:userId', getUser)
+router.get('/financial/users/:userId', getUser)
 
 /**
  * @swagger
@@ -98,7 +98,7 @@ router.delete('/financial/users/:userId/delete', deleteUser)
  *   summary: Get all of a user's savings 
  *   tags: [Savings]
  */
-router.get ('/financial/user/:userId/savings', getSavings)
+router.get ('/financial/:userId/:tableName', getSavings)
 
 /**
  * @swagger
@@ -107,7 +107,7 @@ router.get ('/financial/user/:userId/savings', getSavings)
  *   summary: Get savings from a user's
  *   tags: [Savings]
  */
-router.get ('/financial/user/:userId/savings/:savingId', getSaving)
+router.get ('/financial/:userId/savings/:savingId', getSaving)
 
 /**
  * @swagger
@@ -134,7 +134,7 @@ router.delete ('/financial/user/:userId/savings/:savingId/delete', deleteSaving)
  *   summary: Create savings from a user's
  *   tags: [Savings]
  */
-router.post ('/financial/user/:userId/savings/newSaving', createSaving)
+router.post ('/financial/:userId/savings/newSaving', createSaving)
 
 
 
@@ -153,7 +153,7 @@ router.post ('/financial/user/:userId/savings/newSaving', createSaving)
  *   summary: Get all of a user's investments 
  *   tags: [Investments]
  */
-router.get ('/financial/user/:userId/investments', getInvestments)
+router.get ('/financial/:userId/investments', getInvestments)
 
 /**
  * @swagger
@@ -208,7 +208,7 @@ router.post ('/financial/user/:userId/investments/newInvestment', createInvestme
  *   summary: Get all of a user's incomes
  *   tags: [Incomes]
  */
-router.get ('/financial/user/:userId/incomes', getIncomes)
+router.get ('/financial/:userId/incomes', getIncomes)
 
 /**
  * @swagger
@@ -263,7 +263,7 @@ router.post ('/financial/user/:userId/income/newIncome', createIncome)
  *   summary: Get all of a user's expenses
  *   tags: [Expenses]
  */
-router.get ('/financial/user/:userId/expenses', getExpenses)
+router.get ('/financial/:userId/expenses', getExpenses)
 
 /**
  * @swagger
@@ -319,7 +319,7 @@ router.post ('/financial/user/:userId/expenses/newExpense', createExpense)
  *   summary: Get all of a user's credits
  *   tags: [Credits]
  */
-router.get ('/financial/user/:userId/credits', getCredits)
+router.get ('/financial/:userId/credits', getCredits)
 
 /**
  * @swagger
@@ -374,7 +374,7 @@ router.post ('/financial/user/:userId/credits/newCredit', createCredit)
  *   summary: Get all of a user's bills
  *   tags: [Bills]
  */
-router.get ('/financial/user/:userId/bills', getBills)
+router.get ('/financial/:userId/bills', getBills)
 
 /**
  * @swagger

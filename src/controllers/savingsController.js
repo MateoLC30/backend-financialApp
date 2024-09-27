@@ -3,21 +3,27 @@ import { connect } from "../database.js";
 export const getSavings = async (req, res) => {
 try {
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM savings WHERE user_id = ?', [
+    const validTables = ['savings', 'investments', 'incomes','expenses', 'credits', 'bills']
+
+    if (!validTables.includes(req.params.tableName)) {
+        return res.status(400).json({error: 'Nombre de la tabla no valido'});
+    }
+
+    const [rows] = await connection.query('SELECT * FROM ?? WHERE userId = ?', [
+        req.params.tableName,
         req.params.userId
-    ])
+    ]);
     res.json(rows)
-    res.send('savings')
 } catch (error) {
     console.log("Error: ", error)
-    res.sendStatus(500)
-}}
+    res.status(500).json({ error: 'Error en la consulta' });
+}};
 
 
 export const getSaving = async (req, res) => {
 try {
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM savings WHERE user_id = ? AND id = ?', [
+    const [rows] = await connection.query('SELECT * FROM savings WHERE userId = ? AND id = ?', [
         req.params.userId,
         req.params.id
     ])
@@ -34,7 +40,7 @@ try {
 export const updateSaving = async (req, res) => {
 try {
     const connection = await connect();
-    const result = await connection.query('UPDATE savings SET ? WHERE user_id = ? AND id = ?', [
+    const result = await connection.query('UPDATE savings SET savingId = ? WHERE userId = ? AND id = ?', [
         req.body,
         req.params.userId,
         req.params.savingId
@@ -52,11 +58,12 @@ try {
 export const createSaving = async (req, res) => {
 try {
     const connection = await connect();
-    const result = connection.query('INSERT INTO savings (date, description, entity, annual_interest, user_id) VALUES (?,?,?,?,?,?)', [
+    const result = connection.query('INSERT INTO savings (date, description, entity, annualInterest, amount, userId) VALUES (?,?,?,?,?,?)', [
         req.body.date,
         req.body.description,
         req.body.entity,
-        req.body.annual_interest,
+        req.body.annualInterest,
+        req.body.amount,
         req.params.userId
     ])
     console.log(result);
@@ -70,7 +77,7 @@ try {
 export const deleteSaving = async (req, res) => {
 try {
     const connection = await connect();
-    const result = connection.query('DELETE FROM savings WHERE user_id = ? AND id = ?', [
+    const result = connection.query('DELETE FROM savings WHERE userId = ? AND id = ?', [
         req.params.userId,
         req.params.savingId
     ])

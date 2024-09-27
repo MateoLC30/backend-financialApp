@@ -4,7 +4,7 @@ import { connect } from "../database.js";
 export const getBills = async (req, res) => {
 try { 
         const connection = await connect();
-        const [rows] = await connection.query('SELECT * FROM bills WHERE user_id = ?',[
+        const [rows] = await connection.query('SELECT * FROM bills WHERE userId = ?',[
             req.params.userId
         ]);
         console.log(rows);
@@ -23,7 +23,7 @@ try {
 }
 export const getBill = async (req, res) => {
     const connection = await connect();
-    const [rows] = connection.query('SELECT * FROM bills WHERE user_id = ? AND id = ?',[
+    const [rows] = connection.query('SELECT * FROM bills WHERE userId = ? AND id = ?',[
         req.params.userId,
         req.params.id
     ]);
@@ -35,7 +35,7 @@ export const getBill = async (req, res) => {
 export const updateBill  = async (req, res) => {
 try {
     const connection = await connect();
-    const result = await connection.query('UPDATE bills SET ? WHERE user_id = ? AND id = ?',[
+    const result = await connection.query('UPDATE bills SET ? WHERE userId = ? AND id = ?',[
         req.body,
         req.params.userId,
         req.params.id
@@ -52,7 +52,7 @@ try {
 export const createBill = async (req, res) => {
 try {
     const connection = await connect();
-    const result = connection.query('INSERT INTO bills (payment_date, description, entity, amount, user_id) VALUES (?,?,?,?,?)',[
+    const result = connection.query('INSERT INTO bills (payment_date, description, entity, amount, userId) VALUES (?,?,?,?,?)',[
         req.body.payment_date,
         req.body.description,
         req.body.entity,
@@ -71,7 +71,7 @@ export const deleteBill  = async (req, res) => {
 try {
     
     const connection = await connect();
-    const result = connection.query('DELETE FROM bills WHERE user_id = ? AND id = ?',[
+    const result = connection.query('DELETE FROM bills WHERE userId = ? AND id = ?',[
         req.params.userId,
         req.params.id
     ])

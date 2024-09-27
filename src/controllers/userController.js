@@ -14,7 +14,7 @@ try {
 export const getUser = async (req, res) => {
 try {
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM users WHERE id = ?', [ 
+    const [rows] = await connection.query('SELECT * FROM users WHERE id = ?; ', [ 
         req.params.userId,
     ]);
     res.json(rows[0])
@@ -49,7 +49,7 @@ try {
         req.body.password,
         req.body.email
     ]);
-    console.log(result);
+    console.log("Usuario creado correctamente", result);
     res.sendStatus(200)
 } catch (error) {
     console.log("Error: " + error);
