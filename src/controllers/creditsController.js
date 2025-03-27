@@ -4,11 +4,11 @@ import { connect } from "../database.js";
 export const getCredits = async (req, res) => {
 try {
         const connection = await connect();
-        const [rows] = await connection.query('SELECT * FROM credits WHERE user_id = ?',[
+        const [rows] = await connection.query('SELECT * FROM credits WHERE userId = ?',[
             req.params.userId
         ]);
-        console.log(rows[0]);
-        res.send('credits')
+        console.log(rows);
+        res.json(rows)
     } catch (error) {
     console.log("error: ", error);
     res.sendStatus(500);
@@ -19,7 +19,7 @@ try {
 export const getCredit = async (req, res) => {
 try {
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM credits WHERE user_id = ? AND id = ?',[
+    const [rows] = await connection.query('SELECT * FROM credits WHERE userId = ? AND id = ?',[
         req.params.userId,
         req.params.id
     ]);
@@ -34,7 +34,7 @@ try {
 export const updateCredit = async (req, res) => {
 try {
     const connection = await connect();
-    const result = await connection.query('UPDATE credits SET ? WHERE user_id = ? AND id = ?',[
+    const result = await connection.query('UPDATE credits SET ? WHERE userId = ? AND id = ?',[
         res.body,
         res.params.userId,
         req.params.id
@@ -50,7 +50,7 @@ try {
 export const createCredit = async (req, res) => {
 try {
     const connection = await connect();
-    const result = await connection.query('INSERT INTO credits (description, payment_date, fee, term, entity, user_id) VALUES (?,?,?,?,?,?)',[
+    const result = await connection.query('INSERT INTO credits (description, payment_date, fee, term, entity, userId) VALUES (?,?,?,?,?,?)',[
         req.body.description,
         req.body.payment_date,
         req.body.fee,
@@ -70,7 +70,7 @@ try {
 export const deleteCredit = async (req, res) => {
 try {
     const connection = await connect();
-    const result = await connection.query('DELETE FROM credits WHERE user_id = ? AND id = ?')
+    const result = await connection.query('DELETE FROM credits WHERE userId = ? AND id = ?')
     console.log(result);
     res.send('delete Credits ')
 } catch (error){

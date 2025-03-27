@@ -8,7 +8,7 @@ try {
             req.params.userId
         ]);
         console.log(rows);
-        res.send(rows[0])
+        res.json(rows)
     } catch (error) {
     console.log("Error: ", error);
     res.sendStatus(500);

@@ -3,11 +3,11 @@ import { connect } from "../database.js";
 export const getExpenses = async (req, res) => {
 try {
     const connection = await connect();
-    const [rows] = connection.query('SELECT * FROM expenses WHERE id = ?',[
+    const [rows] = await connection.query('SELECT * FROM expenses WHERE id = ?',[
         req.params.id
     ])
     console.log(rows);
-    res.send(rows[0]);
+    res.json(rows)
 } catch (error) {
     console.log("error: ", error);
     res.sendStatus(500);    
@@ -17,9 +17,9 @@ try {
 export const getExpense = async (req, res) => {
 try {
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM expenses WHERE user_id = ? AND id = ?',[
+    const [rows] = await connection.query('SELECT * FROM expenses WHERE userId = ? AND id = ?',[
         req.params.userId,
-        req.params.id
+        req.params.expenseId
     ]);
     console.log(rows);
     res.send('expenses')
@@ -32,7 +32,7 @@ try {
 export const updateExpense = async (req, res) => {
 try {
     const connection = await connect();
-    const result = await connection.query('UPDATE expenses SET ? WHERE user_id AND id = ?',[
+    const result = await connection.query('UPDATE expenses SET ? WHERE userId AND id = ?',[
         req.body,
         req.params.userId,
         req.params.id
@@ -48,7 +48,7 @@ try {
 export const createExpense = async (req, res) => {
 try {
     const connection = await connect();
-    const result = await connection.query('INSERT INTO expenses (date, description, entity, amount, user_id) VALUES (?,?,?,?,?)',[
+    const result = await connection.query('INSERT INTO expenses (date, description, entity, amount, userId) VALUES (?,?,?,?,?)',[
         req.body.date,
         req.body.description,
         req.body.entity,
@@ -66,7 +66,7 @@ try {
 export const deleteExpense = async (req, res) => {
 try {
     const connection = await connect();
-    const result = await connection.query('DELETE FROM expenses WHERE user_id = ? AND id = ?',[
+    const result = await connection.query('DELETE FROM expenses WHERE userId = ? AND id = ?',[
         req.params.userId,
         req.params.id
     ]);

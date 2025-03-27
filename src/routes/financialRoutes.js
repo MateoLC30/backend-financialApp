@@ -1,12 +1,14 @@
 import { Router } from "express";
 import  { login }  from "../controllers/loginController.js";
-import { getUser, updateUser, createUser, getUsers, deleteUser } from "../controllers/userController.js";
+import { getUser, updateUser, createUser, getUsers, deleteUser, resetUserPassword } from "../controllers/userController.js";
 import { createSaving, getSavings, getSaving, updateSaving, deleteSaving } from "../controllers/savingsController.js";
 import { createInvestment, deleteInvestment, getInvestments, getInvestment, updateInvestment } from "../controllers/investmentsController.js";
 import { createIncome, deleteIncome, getIncomes, getIncome, updateIncome } from "../controllers/incomesController.js";
 import { getExpenses, getExpense, updateExpense, deleteExpense, createExpense } from "../controllers/expensesController.js";
 import { createCredit, deleteCredit, getCredits, getCredit, updateCredit } from "../controllers/creditsController.js";
 import { createBill, deleteBill, getBills, getBill, updateBill } from "../controllers/billsController.js";
+import { notification } from "../controllers/notificationController.js"
+import { verifyToken } from "../controllers/token.js";
 
 
 const router = Router()
@@ -27,6 +29,24 @@ const router = Router()
  */
 router.post('/financial/login', login)
 
+
+
+
+/**
+ * @swagger
+ * tags:
+ *  name: Password
+ *  description: Endpoint Password
+ */
+
+/**
+ * @swagger
+ * /financial/login:
+ *  post:
+ *   summary: Password
+ *   tags: [Password]
+ */
+router.post('/financial/password', notification)
 
 
 /**
@@ -52,7 +72,7 @@ router.get('/financial/users', getUsers)
  *   summary: Get one User
  *   tags: [Users]
  */
-router.get('/financial/users/:userId', getUser)
+router.get('/financial/users/:userId', verifyToken, getUser)
 
 /**
  * @swagger
@@ -70,7 +90,27 @@ router.post('/financial/newUser', createUser)
  *   summary: Update user
  *   tags: [Users]
  */
-router.put('/financial/users/:userId/update', updateUser)
+router.put('/financial/users/:userId/update',verifyToken, updateUser);
+
+
+/**
+ * @swagger
+ * /financial/users/:userId/updatePassword:
+ *  put:
+ *   summary: Update user password
+ *   tags: [Users]
+ */
+router.put('/financial/users/resetPassword/:uuid', resetUserPassword);
+
+/**
+ * @swagger
+ * /financial/users/:userId/email:
+ *  get:
+ *   summary: Update user password
+ *   tags: [Users]
+ */
+// router.get('/financial/users/:userId/email', getUserEmail)
+
 
 /**
  * @swagger
@@ -79,7 +119,7 @@ router.put('/financial/users/:userId/update', updateUser)
  *   summary: Delete one user
  *   tags: [Users]
  */
-router.delete('/financial/users/:userId/delete', deleteUser)
+router.delete('/financial/users/:userId/delete',verifyToken, deleteUser)
 
 
 
@@ -98,7 +138,7 @@ router.delete('/financial/users/:userId/delete', deleteUser)
  *   summary: Get all of a user's savings 
  *   tags: [Savings]
  */
-router.get ('/financial/:userId/:tableName', getSavings)
+router.get ('/financial/:userId/savings',verifyToken, getSavings)
 
 /**
  * @swagger
@@ -107,16 +147,16 @@ router.get ('/financial/:userId/:tableName', getSavings)
  *   summary: Get savings from a user's
  *   tags: [Savings]
  */
-router.get ('/financial/:userId/savings/:savingId', getSaving)
+router.get ('/financial/:userId/savings/:savingId',verifyToken, getSaving)
 
 /**
  * @swagger
  * /financial/user/:userId/savings/:savingId/update:
  *  put:
- *   summary: Update savings from a user's
+ *   summary: Update savings from a user'
  *   tags: [Savings]
  */
-router.put ('/financial/user/:userId/savings/:savingId/update', updateSaving)
+router.put ('/financial/:userId/savings/:savingId/update',verifyToken, updateSaving)
 
 /**
  * @swagger
@@ -125,7 +165,7 @@ router.put ('/financial/user/:userId/savings/:savingId/update', updateSaving)
  *   summary: Delete savings from a user's
  *   tags: [Savings]
  */
-router.delete ('/financial/user/:userId/savings/:savingId/delete', deleteSaving)
+router.delete ('/financial/user/:userId/savings/:savingId/delete',verifyToken, deleteSaving)
 
 /**
  * @swagger
@@ -134,7 +174,7 @@ router.delete ('/financial/user/:userId/savings/:savingId/delete', deleteSaving)
  *   summary: Create savings from a user's
  *   tags: [Savings]
  */
-router.post ('/financial/:userId/savings/newSaving', createSaving)
+router.post ('/financial/:userId/savings/newSaving', verifyToken,createSaving)
 
 
 
@@ -153,7 +193,7 @@ router.post ('/financial/:userId/savings/newSaving', createSaving)
  *   summary: Get all of a user's investments 
  *   tags: [Investments]
  */
-router.get ('/financial/:userId/investments', getInvestments)
+router.get ('/financial/:userId/investments',verifyToken, getInvestments)
 
 /**
  * @swagger
@@ -162,7 +202,7 @@ router.get ('/financial/:userId/investments', getInvestments)
  *   summary: Get investments from a user's
  *   tags: [Investments]
  */
-router.get ('/financial/user/:userId/investments/:investmentId', getInvestment)
+router.get ('/financial/user/:userId/investments/:investmentId', verifyToken,getInvestment)
 
 /**
  * @swagger
@@ -171,7 +211,7 @@ router.get ('/financial/user/:userId/investments/:investmentId', getInvestment)
  *   summary: Update investments from a user's
  *   tags: [Investments]
  */
-router.put ('/financial/user/:userId/investments/:investmentId/update', updateInvestment)
+router.put ('/financial/user/:userId/investments/:investmentId/update',verifyToken,updateInvestment)
 
 /**
  * @swagger
@@ -180,7 +220,7 @@ router.put ('/financial/user/:userId/investments/:investmentId/update', updateIn
  *   summary: Delete savings from a user's
  *   tags: [Investments]
  */
-router.delete ('/financial/user/:userId/investments/:investmentId/delete', deleteInvestment)
+router.delete ('/financial/user/:userId/investments/:investmentId/delete',verifyToken, deleteInvestment)
 
 /**
  * @swagger
@@ -189,7 +229,7 @@ router.delete ('/financial/user/:userId/investments/:investmentId/delete', delet
  *   summary: Create investments from a user's
  *   tags: [Investments]
  */
-router.post ('/financial/user/:userId/investments/newInvestment', createInvestment)
+router.post ('/financial/user/:userId/investments/newInvestment', verifyToken,createInvestment)
 
 
 
@@ -208,7 +248,7 @@ router.post ('/financial/user/:userId/investments/newInvestment', createInvestme
  *   summary: Get all of a user's incomes
  *   tags: [Incomes]
  */
-router.get ('/financial/:userId/incomes', getIncomes)
+router.get ('/financial/:userId/incomes', verifyToken,getIncomes)
 
 /**
  * @swagger
@@ -217,7 +257,7 @@ router.get ('/financial/:userId/incomes', getIncomes)
  *   summary: Get incomes from a user's
  *   tags: [Incomes]
  */
-router.get ('/financial/user/:userId/incomes/:incomeId', getIncome)
+router.get ('/financial/user/:userId/incomes/:incomeId',verifyToken, getIncome)
 
 /**
  * @swagger
@@ -226,7 +266,7 @@ router.get ('/financial/user/:userId/incomes/:incomeId', getIncome)
  *   summary: Update incomes from a user's
  *   tags: [Incomes]
  */
-router.put ('/financial/user/:userId/incomes/:incomeId/update', updateIncome)
+router.put ('/financial/user/:userId/incomes/:incomeId/update',verifyToken, updateIncome)
 
 /**
  * @swagger
@@ -235,7 +275,7 @@ router.put ('/financial/user/:userId/incomes/:incomeId/update', updateIncome)
  *   summary: Delete incomes from a user's
  *   tags: [Incomes]
  */
-router.delete ('/financial/user/:userId/incomes/:incomeId/delete', deleteIncome)
+router.delete ('/financial/user/:userId/incomes/:incomeId/delete',verifyToken, deleteIncome)
 
 /**
  * @swagger
@@ -244,7 +284,7 @@ router.delete ('/financial/user/:userId/incomes/:incomeId/delete', deleteIncome)
  *   summary: Create incomes from a user's
  *   tags: [Incomes]
  */
-router.post ('/financial/user/:userId/income/newIncome', createIncome)
+router.post ('/financial/user/:userId/income/newIncome',verifyToken, createIncome)
 
 
 
@@ -263,7 +303,7 @@ router.post ('/financial/user/:userId/income/newIncome', createIncome)
  *   summary: Get all of a user's expenses
  *   tags: [Expenses]
  */
-router.get ('/financial/:userId/expenses', getExpenses)
+router.get ('/financial/:userId/expenses',verifyToken, getExpenses)
 
 /**
  * @swagger
@@ -272,7 +312,7 @@ router.get ('/financial/:userId/expenses', getExpenses)
  *   summary: Get expenses from a user's
  *   tags: [Expenses]
  */
-router.get ('/financial/user/:userId/expenses/:expenseId', getExpense)
+router.get ('/financial/user/:userId/expenses/:expenseId', verifyToken, getExpense)
 
 /**
  * @swagger
@@ -281,7 +321,7 @@ router.get ('/financial/user/:userId/expenses/:expenseId', getExpense)
  *   summary: Update expenses from a user's
  *   tags: [Expenses]
  */
-router.put ('/financial/user/:userId/expenses/:expenseId/update', updateExpense)
+router.put ('/financial/user/:userId/expenses/:expenseId/update',verifyToken, updateExpense)
 
 /**
  * @swagger
@@ -290,7 +330,7 @@ router.put ('/financial/user/:userId/expenses/:expenseId/update', updateExpense)
  *   summary: Create expenses from a user's
  *   tags: [Expenses]
  */
-router.delete ('/financial/user/:userId/expenses/:expenseId/delete', deleteExpense)
+router.delete ('/financial/user/:userId/expenses/:expenseId/delete',verifyToken, deleteExpense)
 
 /**
  * @swagger
@@ -299,7 +339,7 @@ router.delete ('/financial/user/:userId/expenses/:expenseId/delete', deleteExpen
  *   summary: Create expenses from a user's
  *   tags: [Expenses]
  */
-router.post ('/financial/user/:userId/expenses/newExpense', createExpense)
+router.post ('/financial/user/:userId/expenses/newExpense', verifyToken, createExpense)
 
 
 
@@ -319,7 +359,7 @@ router.post ('/financial/user/:userId/expenses/newExpense', createExpense)
  *   summary: Get all of a user's credits
  *   tags: [Credits]
  */
-router.get ('/financial/:userId/credits', getCredits)
+router.get ('/financial/:userId/credits',verifyToken, getCredits)
 
 /**
  * @swagger
@@ -328,7 +368,7 @@ router.get ('/financial/:userId/credits', getCredits)
  *   summary: Get credits from a user's
  *   tags: [Credits]
  */
-router.get ('/financial/user/:userId/credits/:creditId', getCredit)
+router.get ('/financial/user/:userId/credits/:creditId',verifyToken, getCredit)
 
 /**
  * @swagger
@@ -337,7 +377,7 @@ router.get ('/financial/user/:userId/credits/:creditId', getCredit)
  *   summary: Update credits from a user's
  *   tags: [Credits]
  */
-router.put ('/financial/user/:userId/credits/:creditId/update', updateCredit)
+router.put ('/financial/user/:userId/credits/:creditId/update',verifyToken, updateCredit)
 
 /**
  * @swagger
@@ -346,7 +386,7 @@ router.put ('/financial/user/:userId/credits/:creditId/update', updateCredit)
  *   summary: Delete credtis from a user's
  *   tags: [Credits]
  */
-router.delete ('/financial/user/:userId/credits/:creditId/delete', deleteCredit)
+router.delete ('/financial/user/:userId/credits/:creditId/delete',verifyToken, deleteCredit)
 
 /**
  * @swagger
@@ -355,7 +395,7 @@ router.delete ('/financial/user/:userId/credits/:creditId/delete', deleteCredit)
  *   summary: Create credits from a user's
  *   tags: [Credits]
  */
-router.post ('/financial/user/:userId/credits/newCredit', createCredit)
+router.post ('/financial/user/:userId/credits/newCredit',verifyToken, createCredit)
 
 
 
@@ -374,7 +414,7 @@ router.post ('/financial/user/:userId/credits/newCredit', createCredit)
  *   summary: Get all of a user's bills
  *   tags: [Bills]
  */
-router.get ('/financial/:userId/bills', getBills)
+router.get ('/financial/:userId/bills',verifyToken, getBills)
 
 /**
  * @swagger
@@ -383,7 +423,7 @@ router.get ('/financial/:userId/bills', getBills)
  *   summary: Get bills from a user's
  *   tags: [Bills]
  */
-router.get ('/financial/user/:userId/bills/:billId', getBill)
+router.get ('/financial/user/:userId/bills/:billId',verifyToken, getBill)
 
 /**
  * @swagger
@@ -392,7 +432,7 @@ router.get ('/financial/user/:userId/bills/:billId', getBill)
  *   summary: Create bills from a user's
  *   tags: [Bills]
  */
-router.put ('/financial/user/:userId/bills/:billId/update', updateBill)
+router.put ('/financial/user/:userId/bills/:billId/update',verifyToken, updateBill)
 
 /**
  * @swagger
@@ -401,7 +441,7 @@ router.put ('/financial/user/:userId/bills/:billId/update', updateBill)
  *   summary: Delete bills from a user's
  *   tags: [Bills]
  */
-router.delete ('/financial/user/:userId/bills/:billId/delete', deleteBill)
+router.delete ('/financial/user/:userId/bills/:billId/delete',verifyToken, deleteBill)
 
 /**
  * @swagger
@@ -410,7 +450,7 @@ router.delete ('/financial/user/:userId/bills/:billId/delete', deleteBill)
  *   summary: Create bills from a user's
  *   tags: [Bills]
  */
-router.post ('/financial/user/:userId/bills/newBill', createBill)
+router.post ('/financial/user/:userId/bills/newBill',verifyToken, createBill)
 
 
 

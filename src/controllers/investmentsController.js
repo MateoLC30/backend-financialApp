@@ -4,11 +4,11 @@ import { connect } from "../database.js"
 export const getInvestments = async (req, res) => {
 try {
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM investments WHERE user_id = ?', [
+    const [rows] = await connection.query('SELECT * FROM investments WHERE userId = ?', [
         req.params.userId
     ]);
     console.log(rows);
-    res.send('investments')
+    res.json(rows)
 } catch (error) {
     console.log("error: ", error);
     res.sendStatus(500);    
@@ -18,7 +18,7 @@ try {
 export const getInvestment = async (req, res) => {
 try {
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM investments WHERE user_id = ? AND id = ?', [
+    const [rows] = await connection.query('SELECT * FROM investments WHERE userId = ? AND id = ?', [
         req.params.investmentId,
         req.params.id
     ])
@@ -34,7 +34,7 @@ try {
 export const updateInvestment = async (req, res) => {
 try {
     const connection = await connect();
-    const result = await connection.query('UPDATE investments SET ? WHERE user_id = ? AND id = ?', [
+    const result = await connection.query('UPDATE investments SET ? WHERE userId = ? AND id = ?', [
         req.body,
         req.params.userId,
         req.params.id
@@ -50,7 +50,7 @@ try {
 export const createInvestment = async (req, res) => {
 try {
     const connection = await connect();
-    const result = await connection.query('INSERT INTO investments (date, description, entity, annual_interest, amount_invested, user_id) VALUES (?,?,?,?,?,?)',[
+    const result = await connection.query('INSERT INTO investments (date, description, entity, annual_interest, amount_invested, userId) VALUES (?,?,?,?,?,?)',[
         req.body.date,
         req.body.description,
         req.body.entity,
@@ -69,7 +69,7 @@ try {
 export const deleteInvestment = async (req, res) => {
 try {
     const connection = await connect();
-    const result = connection.query('DELETE FROM investments WHERE user_id = ? AND id = ?'[
+    const result = connection.query('DELETE FROM investments WHERE userId = ? AND id = ?'[
         req.params.userId,
         req.params.id
     ]);

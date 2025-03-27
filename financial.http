@@ -4,7 +4,7 @@ GET {{api}}/users
 
 ###
 
-GET {{api}}/users/15
+GET {{api}}/users/51
 
 ###
 
@@ -28,9 +28,9 @@ POST {{api}}/newUser
 Content-Type: application/json
 
 {
-    "name": "alina Loaiza ",
-    "password": "alinita03",
-    "email": "alita0@gmail.com"
+    "name": "mafe suarez",
+    "password": "suarez03",
+    "email": "suarez0@gmail.com"
 }
 
 ###
@@ -43,14 +43,14 @@ POST {{api}}/login
 Content-Type: application/json
 
 {
-    "email": "alita0@gmail.com",
-    "password": "alinita03"
+    "email": "suarez0@gmail.com",
+    "password": "suarez03"
 }
 
 
 ###
 
-GET {{api}}/15/savings
+GET {{api}}/66/savings
 
 ###
 

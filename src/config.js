@@ -2,7 +2,7 @@ import { config as dotenv } from "dotenv";
 dotenv();
 
 const config = {
-    JWT_SECRET: process.env.JWT_SECRET || 'mi_super_secreta_clave_jwt',
+    JWT_SECRET: process.env.JWT_SECRET || 'MaT0303**',
     db: {
         host: process.env.DB_HOST || 'localhost',
         user: process.env.DB_USER || 'root',

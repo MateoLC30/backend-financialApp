@@ -4,11 +4,11 @@ import { connect } from "../database.js"
 export const getIncomes = async (req, res) => {
 try {
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM incomes WHERE user_id = ?', [
-        req.params.user_id
+    const [rows] = await connection.query('SELECT * FROM incomes WHERE userId = ?', [
+        req.params.userId
     ])
     console.log(rows);
-    res.send('incomes')
+    res.json(rows)
 } catch (error) {
     console.log("error: ", error);
     res.sendStatus(500);  
@@ -19,12 +19,11 @@ try {
 export const getIncome = async (req, res) => {
 try {
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM incomes WHERE user_id = ? AND id = ?', [
+    const [rows] = await connection.query('SELECT * FROM incomes WHERE userId = ? AND id = ?', [
         req.params.incomeId,
         req.params.id
     ])
     console.log(rows);
-    res.json(rows[0])
 } catch (error) {
     console.log("Error: " + error);
     res.sendStatus(500);
@@ -35,7 +34,7 @@ try {
 export const updateIncome = async (req, res) => {
 try {
     const connection = await connect();
-    const result = connection.query('UPDATE incomes SET ? WHERE user_id = ? AND id = ?', [
+    const result = connection.query('UPDATE incomes SET ? WHERE userId = ? AND id = ?', [
         req.params.userId,
         req,params.id
     ]);
@@ -51,7 +50,7 @@ try {
 export const createIncome = async(req, res) => {
 try {
     const connection = await connect();
-    const result = connection.query('INSERT INTO incomes (date, description, amount, reason, user_id) VALUES (?,?,?,?,?)',[
+    const result = connection.query('INSERT INTO incomes (date, description, amount, reason, userId) VALUES (?,?,?,?,?)',[
         req.body.date,
         req.body.description,
         req.body.amount,
@@ -69,7 +68,7 @@ try {
 export const deleteIncome = async (req, res) => {
 try {
     const connection = await connect();
-    const result = connection.query('DELETE FROM incomes WHERE user_id = ? AND id = ?',[
+    const result = connection.query('DELETE FROM incomes WHERE  = ? AND id = ?',[
         req.params.userId,
         req.params.id
     ])

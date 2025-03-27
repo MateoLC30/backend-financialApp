@@ -34,8 +34,11 @@ try {
 export const updateSaving = async (req, res) => {
 try {
     const connection = await connect();
-    const result = await connection.query('UPDATE savings SET savingId = ? WHERE userId = ? AND id = ?', [
-        req.body,
+    const result = await connection.query('UPDATE savings SET amount = ?, annualInterest = ?, entity = ?, date = ? WHERE userId = ? AND id = ?', [
+        req.body.amount,
+        req.body.annualInterest,
+        req.body.entity,
+        req.body.date,
         req.params.userId,
         req.params.savingId
     ])
@@ -52,12 +55,12 @@ try {
 export const createSaving = async (req, res) => {
 try {
     const connection = await connect();
-    const result = connection.query('INSERT INTO savings (date, description, entity, annualInterest, amount, userId) VALUES (?,?,?,?,?,?)', [
-        req.body.date,
+    const result = connection.query('INSERT INTO savings (description, amount, entity, date, annualInterest, userId) VALUES (?,?,?,?,?,?)', [
         req.body.description,
-        req.body.entity,
-        req.body.annualInterest,
         req.body.amount,
+        req.body.entity,
+        req.body.date,
+        req.body.annualInterest,
         req.params.userId
     ])
     console.log(result);
